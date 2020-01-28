@@ -1,0 +1,160 @@
+//局域网环境下：
+    自己搭建：gitlab服务器
+//外网环境下：
+    github:https://github.com
+    码云：https://gitee.com
+
+###配置签名
+    //项目签名
+    不加 --blobal 为项目级别
+    
+    //系统签名（全局签名）
+       git config --global user.name '名称'
+       git config --global user.email '邮箱'
+
+    //项目签名》系统签名
+
+    ###名词
+        workspace:工作区，逻辑上是本地计算机，还没添加到repository的状态；
+        staging:版本库中的stage,是暂存区。修改已经添加进repository，但还没有作为commit提交，类似缓存；
+        local repository:版本中master那个地方，到这一步才算是成功生成一个新版本；
+        Remote repository:远程仓库。用来将本地仓库上传到网络，可以用于备份、共享、合作。
+
+    ###远程仓库
+        fetch：拉取
+        push：推送
+
+    ###系统配置
+        //查看仓库级的 config，命令：
+        git config -–local -l
+
+        //查看全局级的 config，命令：
+        git config -–global -l
+
+        //查看系统级的 config，命令：
+        git config -–system -l
+        
+        //查看当前生效的配置，  命令：
+        git config -l
+
+        //查看用户名(邮箱同理)
+        git config user.name 
+        
+        //修改账户
+        git config --global --replace-all user.email "输入你的邮箱" 
+        git config --global --replace-all user.name "输入你的用户名"
+
+###git操作指令
+    ###文件提交
+        git add 文件名称                     //添加到缓存区
+        git commit 文件名称 -m ‘注释’        //提交修改 -m ‘注释’:简洁的写提交注释
+        git commit 文件名称 -a -m ‘注释’     // -a:提交所有追踪的文件
+        
+        git log     //查看日志
+            空格 向下翻页
+            b 向上翻页
+            q 退出
+        
+        ###查看日志
+        git reflog                      //显示日志--获取到哈希值
+        git log --pretty=oneline        //简洁查看日志
+            git log --oneline           //更简洁查看日志
+            git log --reflog            //显示回退步数
+            
+
+    ###前进和后退
+        基于索引值操作【推荐】
+            git reflog                  //显示日志--获取到哈希值
+            git reset --hard 哈希值      //重置到版本
+
+        使用^符号：只能后退：
+            git reset --hard HEAD^      //只能后退。一个^只能退一步，n^个表示退n步
+
+        使用~符号：只能后退
+            git reset --hard HEAD~n      //表示后退n步
+
+        参数说明：
+            --soft  参数                 //仅在本地库移动 HEAD 指针
+            --mixed 参数                 //在本地库移动HEAD 指针
+                                        //重置暂存区
+            --herd  参数                 //在本地库移动HEAD
+                                        //重置暂存区
+                                        //重置工作区   
+
+###Github使用
+
+    ###分支
+        git branch -v                       //查看分支
+        git branch 名称                     //创建分支
+        git branch -b 分支名称              //删除分支
+        git checkout 名称                   //切换到分支
+
+    ###合并分支
+        git merge 分支名称                  //分支合并起来
+
+    ###分支冲突
+        //冲突时 cat 文件名  可以查看冲突部分
+        //打开冲突文件，删除自动生成的字符，修改内容 保存退出
+        //add文件
+        //commit 文件 //commit不需要指定文件名称
+        //（解决冲突后，commit了当前分支，另外分支没有改变。可以重新合并分支，或者删除分支重新创建）
+
+    ###远程仓库使用
+        ###基本操作
+            git remote add 名称 URL             //给远程仓库添加映射
+            git remote -v                      //查看当前远程地址映射
+
+        ###推送
+            git push 映射名称 分支名称      //推送到远程仓库
+
+        ###克隆
+            git clone 地址URL              //克隆仓库（自动创建origin 映射名称）
+
+        ####邀请成员加入团队
+            Settings=>collaborators=>填写邮箱or用户名=>复制链接
+
+        ###拉取
+        //pull=fetch+merge
+
+        一：分步骤拉取
+        git fetch 映射名称 分支名称                         //拉取仓库
+            git checkout 映射名称/分支名称                  //进入拉取仓库后 没有合并的仓库
+            git merge 映射名称/分支名称                     //拉取仓库后合并当前
+        二：直接拉取
+        git pull 映射名称 分支名称                          //拉取并合并
+
+
+
+
+
+
+###基本操作
+    git init                        //初始化本地仓库
+
+    git status                      //查看文件状态 
+
+    cat 文件名                      //查看文件内容，不可以编辑
+
+    vim 文件名称                    //打开文件编辑，进入vim编辑器（如果没有文件则自动创建）
+        i：编辑模式 esc返回命令模式
+        :wq 保存退出
+        : 进入指令模式
+
+    rm  文件名称                              //删除文件
+        rm -rvf .后缀名                       //强制删除所有
+
+    git diff                                 //比较工作区和黄缓存区的差异
+    git diff 哈希值（版本号） 文件名字         //比较历史中的版本
+
+
+
+
+###Linux命令
+    cd 目录名                         //切换目录（：目录名/目录名。。。/目录名）
+
+    pwd                              //查看当前目录
+    
+    ll                               //查看当前目录下的所有文件和目录（不包含隐藏的） .代表隐藏的
+    ll -la                           //查看当前目录下的所有文件目录（包含隐藏的）
+    
+
