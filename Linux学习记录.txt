@@ -1,0 +1,137 @@
+ifconfig ig eth0 IP地址    //更改IP地址，重启后失效
+
+4.1 文件处理命令
+
+
+    4.1.1 命令格式与目录处理命令ls
+        命令格式：命令 [-选项] [参数]
+        例： ls -la /etc
+
+        说明：1、个别命令使用不遵循此格式
+            2、当有多个选项时，可以写在一起
+            3.简化选项与完整选项 ：-a == all
+
+          --目录处理命令：ls
+            命令名称：ls
+            命令英文原意：list
+            命令所在路径：/bin/ls
+            执行权限：所有用户
+            功能描述：显示目录文件
+            语法：ls 选项【-ald】【文件或者目录】
+                    -a 显示所有文件，包括隐藏文件
+                    -l 详细信息显示
+                    -d 查看目录属性
+                    -lh 显示文件大小
+                    -i 查看文件的节点
+        -rw-r--r--
+            -文件类型（-二进制文件 d目录 l软链接文件）
+        rw- r-- r--
+            u：所有者
+            g:所属组
+            o:其他人
+        r:读 w：写 x:执行
+
+
+    4.1.2 目录处理命令：mkdir
+
+          --命令名称：mkdir
+            命令英文原意：make directories
+            命令所在路径：/bin/mkdir
+            执行权限：所有用户
+            语法：mkdir -p [目录名]
+            功能描述： 创建新目录
+                    -p 递归创建(新目录创建新目录)
+            范例：mkdir -p /tmp/japan/boduo
+                  mkdir /tmp/japan/longze/tmp/japan/cangjing
+
+          --命令名称：cd
+            命令英文原意：change directory
+            命令所在路径：shell内置命令
+            执行权限：所有用户
+            语法：cd [目录]
+            功能描述： 切换目录
+            范例：cd /tmp/japan/boduo       //切换到指定目录
+                 cd ..      //回到上一级目录
+
+          --命令名称：pwd
+            命令英文原意：print working directory
+            命令所在路径：/bin/pwd
+            执行权限：所有用户
+            语法：pwd
+            功能描述：显示当目录绝对路径
+            范例：pwd
+                 输出：/tmp/japan
+
+          --命令名称：rmdir
+            命令英文原意：remove empty directories
+            命令所在路径：/bin/rmdir
+            执行权限：所有用户
+            语法：rmdir[目录名]
+            功能描述：删除空目录!!!
+            范例：rmdir /tmp/japan/boduo 
+
+           --命令名称：cp
+            命令英文原意：copy
+            命令所在路径：/bin/cp
+            执行权限：所有用户
+            语法：cp -rp [原文件或目录][目标目录]
+                 -r 复制目录
+                 -p 保留文件属性(如：创建时间)
+            功能描述：复制文件或目录
+            范例：
+            cp -r /tmp/japan/cangjing /root     //将目录/tmp/japan/cangjing复制到目录/root下
+            cp -rp /tmp/japan/boduo /tmp/janpan/longze /root        //将/tmp/japan目录下的boduo和longze目录复制到/root下，保持目录属性       
+
+
+          --命令名称：mv
+            命令英文原意：move
+            命令所在路径：/bin/mv
+            执行权限：所有用户
+            语法：mv[原文件或目录] [目标目录]
+            功能描述：剪切文件、改名（同目录下剪切为改名）
+            范例：与cp相似
+            
+          --命令名称：rm
+            命令英文原意：remove
+            命令所在路径：/bin/rm
+            执行权限：所有用户
+            语法：rm -fr [文件或目录]
+                 -r 删除目录（删除普通文件不需要，删除目录需要）
+                 -f 强制执行（不显示删除提醒）
+            功能描述：删除文件和目录
+            范例：rm [文件名称]
+            
+          --命令名称：
+            命令英文原意：
+            命令所在路径：
+            执行权限：所有用户
+            语法：
+            功能描述：
+            范例：
+14p
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+软件：
+winscp      //互传文件
+xshell      //远程连接控制
