@@ -123,7 +123,9 @@
         二：直接拉取
         git pull 映射名称 分支名称                          //拉取并合并
 
-
+# 静默启动 ssh-agent
+exec ssh-agent bash
+eval ssh-agent -s
 
 
 
