@@ -1,0 +1,119 @@
+//字符串替换
+Replace            
+string.Replace("需要替换的字符串",“替换后的字符串”)
+
+
+//检查是否存在当前字符串
+    //使用Contains 比 IndexOf 的性能要高很多。
+    //因为 Contains 是判断某个字符串是否在该字符串里面，而IndexOf是返回对应下标值
+Contains
+string.Contains("字符串")               //返回bool
+
+
+//字符串分割
+Split
+string.Split('分割字符串')              //返回字符串
+
+
+//IO操作：
+IO:
+判断文件是否存在：
+Directory.Exists(路径)     //bool
+创建文件:
+Directory.CreateDirectory(路径)
+读取文件：
+StreamReader sr=new StreamReader(路径,编码格式（Encoding.UTF8))
+string =sr.ReadToEnd().ToString()
+sr.Dispose();
+sr.Close();
+
+
+FileStream 类
+System.IO 命名空间中的 FileStream 类有助于文件的读写与关闭。该类派生自抽象类 Stream。
+
+您需要创建一个 FileStream 对象来创建一个新的文件，或打开一个已有的文件。创建 FileStream 对象的语法如下：
+FileStream <object_name> = new FileStream( <file_name>,
+<FileMode Enumerator>, <FileAccess Enumerator>, <FileShare Enumerator>);
+
+例如，创建一个 FileStream 对象 F 来读取名为 sample.txt 的文件：
+FileStream F = new FileStream("sample.txt", FileMode.Open, FileAccess.Read, FileShare.Read);
+
+FileMode	
+FileMode 枚举定义了各种打开文件的方法。
+FileMode 枚举的成员有：
+Append：打开一个已有的文件，并将光标放置在文件的末尾。如果文件不存在，则创建文件。
+Create：创建一个新的文件。如果文件已存在，则删除旧文件，然后创建新文件。
+CreateNew：指定操作系统应创建一个新的文件。如果文件已存在，则抛出异常。
+Open：打开一个已有的文件。如果文件不存在，则抛出异常。
+OpenOrCreate：指定操作系统应打开一个已有的文件。如果文件不存在，则用指定的名称创建一个新的文件打开。
+Truncate：打开一个已有的文件，文件一旦打开，就将被截断为零字节大小。然后我们可以向文件写入全新的数据，但是保留文件的初始创建日期。如果文件不存在，则抛出异常。
+
+FileAccess	
+FileAccess 枚举的成员有：Read、ReadWrite 和 Write。
+
+FileShare 枚举的成员有：
+Inheritable：允许文件句柄可由子进程继承。Win32 不直接支持此功能。
+None：谢绝共享当前文件。文件关闭前，打开该文件的任何请求（由此进程或另一进程发出的请求）都将失败。
+Read：允许随后打开文件读取。如果未指定此标志，则文件关闭前，任何打开该文件以进行读取的请求（由此进程或另一进程发出的请求）都将失败。但是，即使指定了此标志，仍可能需要附加权限才能够访问该文件。
+ReadWrite：允许随后打开文件读取或写入。如果未指定此标志，则文件关闭前，任何打开该文件以进行读取或写入的请求（由此进程或另一进程发出）都将失败。但是，即使指定了此标志，仍可能需要附加权限才能够访问该文件。
+Write：允许随后打开文件写入。如果未指定此标志，则文件关闭前，任何打开该文件以进行写入的请求（由此进程或另一进过程发出的请求）都将失败。但是，即使指定了此标志，仍可能需要附加权限才能够访问该文件。
+Delete：允许随后删除文件。
+
+//写入文件 指定编码格式
+StreamWriter sw=new StreamWriter(FileStream对象,编码格式（Encoding.UTF8）)
+sw.WriteLine（写入内容）
+sw.Flush()
+sw.Close()
+FileStream对象.Close()
+
+//时间操作
+DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")
+
+
+//获取到Debug路径
+Environment.CurrentDirectory            //返回Debug路径。Environment当前平台的操作信息类
+
+
+//打开文件目录或者页面
+ System.Diagnostics.Process
+                    ProcessStartInfo
+            Process process = new Process();
+            process.StartInfo.FileName = @"c:\windows\system32\cmd.exe";//打开（链接，文件目录）指定ie打开浏览器
+            process.StartInfo.Arguments = "/user:Administrator \"cmd /k ipconfig\"";//参数 （cmd参数）指定网页链接
+            process.Start();//启动
+            //or new
+            string str = "命令"; // 输入的命令行，保存在 str中
+            ProcessStartInfo start = new ProcessStartInfo("cmd.exe");
+            start.FileName = "cmd.exe";   // 设定程序名
+            start.Arguments = " /c " + str;
+            start.CreateNoWindow = true;  // 不显示dos 窗口
+            start.UseShellExecute = false;    //是否指定操作系统外壳进程启动程序，没有这行，调试时编译器会通知你加上的...orz
+            start.RedirectStandardInput = true;
+            start.RedirectStandardOutput = true;  // 重新定向标准输入、输出流
+            Process p = Process.Start(start);
+            //or new
+            System.Diagnostics.Process.Start("www.baidu.com");//打开百度首页
+
+
+json操作（命名空间 Newtonsoft。json or Newtonsoft.json.Linq）
+json转字符串：
+      var json1 = Newtonsoft.Json.JsonConvert.SerializeObject(getini);
+字符串转json：
+      var json = Newtonsoft.Json.Linq.JObject.Parse(getini);
+      var dejson = Newtonsoft.Json.JsonConvert.DeserializeObject(getini);
+获取json下标值：
+      json["下标"].ToString();
+json添加下标：
+      json.Add("Title",内容)
+
+
+
+string非空判断 IsNullOrEmpty与IsNullOrWhiteSpace
+      IsNullOrEmpty：非空非NULL判断
+      IsNullOrWhiteSpace：非空非NULL非空格判断
+      后者优于前者
+
+
+错误信息：
+       throw new Exception("Boom!");           //报错信息Boom
+

@@ -1,0 +1,145 @@
+创建线程：Start（）
+    Thread t=new Thread(方法);
+    t.Start();
+
+
+暂停线程：
+    Thread.Sleep(TimeSpan.FromSeconds（2）);//暂停2秒
+
+
+线程等待：join（）
+        主程序中调用了t.Join方法,该方法允许我们等待直到线程t完成。当线程t完成 "时,主程序会继续运行。
+        Thread t = new Thread(PrintNumbersWithDelay);
+        t.Start();
+        t.Join();
+
+
+终止线程：Abort（）
+        这给线程注入了ThreadAbortException方法,导致线程被终结。这非常危险,因为该异常可以在任何时刻发生并可能彻底摧毁应用程序。
+        另外,使用该技术也不一定总能终止线程。目-标线程可以通过处理该异常并调用Thread.ResetAbort方法来拒绝被终止。
+        因此并不推荐使用,Abort方法来关闭线程。可优先使用一些其他方法,比如提供一个CancellationToken方法来,取消线程的执行。
+        Thread t = new Thread(PrintNumbersWithDelay);
+        t.Start();
+        Thread.Sleep(TimeSpan.FromSeconds(6));
+        t.Abort();
+
+
+监测线程状态：t.ThreadState
+        Unstarted 还未启动
+        Running 运行中
+        Stopped 结束
+        t.ThreadState.ToString()  //
+
+
+线程优先级：？？？
+
+
+
+前后台线程：t.IsBackground=true //后台线程
+        默认情况下,显式创建的线程是前台线程。通过手动的设置threadTwo对象的IsBackground属性为ture来创建一个后台线程。
+        通过配置来实现第一个线程会比第二个线程先完成。
+        第一个线程完成后,程序结束并且后台线程被终结。这是前台线程与后台线程的主要区,别:进程会等待所有的前台线程完成后再结束工作,但是如果只剩下后台线程,则会直接结束工作。
+        一个重要注意事项是如果程序定义了一个不会完成的前台线程,主程序并不会正常结束。
+
+
+
+获取线程名称：Thread.CurrentThread.Name  
+
+
+线程传递参数：
+        1.利用构造函数传递参数，调用函数的内的方法  
+                var sample = new ThreadSample(10);
+                var threadOne = new Thread(sample.CountNumbers);
+
+                class ThreadSample
+                {
+                    private readonly int _iterations;
+
+                    public ThreadSample(int iterations)
+                    {
+                        _iterations = iterations;
+                    }
+                    public void CountNumbers()
+                    {
+                        for (int i = 1; i <= _iterations; i++)
+                        {
+                            Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                            Console.WriteLine("{0} prints {1}", Thread.CurrentThread.Name, i);
+                        }
+                    }
+                }
+        2.方法嵌套方法：
+                var threadTwo = new Thread(Count);
+                threadTwo.Name = "ThreadTwo";
+                threadTwo.Start(8);
+
+                static void Count(object iterations)
+                {
+                    CountNumbers((int)iterations);
+                }
+                static void CountNumbers(int iterations)
+                {
+                    for (int i = 1; i <= iterations; i++)
+                    {
+                        Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                        Console.WriteLine("{0} prints {1}", Thread.CurrentThread.Name, i);
+                    }
+                }
+
+        3.使用lambda表达式：
+                var threadThree=new Thread(()=>方法（参数）)        
+        
+
+lock关键字：
+        lock（）{}
+        锁定操作对象，其他线程操作时必须等当前线程完成后，才可以进行访问。
+
+
+Moniter类锁：？？？
+        Monitor
+        其拥有TryEnter方法,该方法接受一个超时, "参数。如果在我们能够获取被lock保护的资源之前,
+        超时参数过期,则该方法会返回 false.
+
+
+异常处理：
+        在线程代码块中处理异常。不要再使用线程中处理异常
+
+
+执行基本的原子操作：？？？
+
+
+使用Mutex类：？？？
+
+
+限制线程并发数量：SemaphorsSlim
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                for (int i = 1; i <= 6; i++)
+                {
+                    string threadName = "Thread " + i;
+                    int secondsToWait = 2 + 2 * i;
+                    var t = new Thread(() => AccessDatabase(threadName, secondsToWait));
+                    t.Start();
+                }
+            }
+
+            static SemaphoreSlim _semaphore = new SemaphoreSlim(4);
+
+            static void AccessDatabase(string name, int seconds)
+            {
+                Console.WriteLine("{0} waits to access a database", name);
+                _semaphore.Wait();
+                Console.WriteLine("{0} was granted an access to a database", name);
+                Thread.Sleep(TimeSpan.FromSeconds(seconds));
+                Console.WriteLine("{0} is completed", name);
+                _semaphore.Release();
+
+            }
+        }
+        每个线程都尝试获取数据库的访问,但是我们借助于信号系统限制了访问数据库的并发,数为4个线程。
+        当有4个线程获取了数据库的访问后,其他两个线程需要等待,直到之前线,程中的某一个完成工作并调用semaphore.Release方法来发出信号。
+
+
+使用AutoResetEvent类：--
